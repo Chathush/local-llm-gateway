@@ -1,0 +1,36 @@
+[build-system]
+requires = ["hatchling>=1.26"]
+build-backend = "hatchling.build"
+
+[project]
+name = "local-llm-gateway"
+version = "0.1.0"
+description = "Personal local model gateway through installed Codex and Claude Code CLIs"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = ["pydantic>=2.10,<3", "PyYAML>=6,<7", "jsonschema>=4.23,<5"]
+
+[project.optional-dependencies]
+http = ["fastapi>=0.115,<1", "uvicorn>=0.34,<1"]
+langchain = ["langchain-core>=1,<2"]
+langgraph = ["langchain-core>=1,<2", "langgraph>=1,<2"]
+adk = ["google-adk>=2.11,<3"]
+dev = ["pytest>=8,<10", "pytest-asyncio>=0.25,<2", "httpx>=0.28,<1", "ruff>=0.11", "build>=1.2", "openai>=1.60,<3"]
+
+[project.scripts]
+llm-gateway = "local_llm_gateway.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/local_llm_gateway"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+markers = ["live: calls an installed CLI and consumes subscription usage (opt in)"]
+
+[tool.ruff]
+target-version = "py311"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F", "I"]

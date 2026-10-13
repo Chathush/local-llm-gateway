@@ -1,0 +1,27 @@
+schema_version: 1
+application: local-experiment
+default_profile: primary
+
+profiles:
+  primary:
+    provider: codex
+    # Set a model supported by your Codex subscription, or leave null for its default.
+    model: gpt-6-astra
+  claude:
+    provider: claude_code
+    model: sonnet
+
+providers:
+  codex:
+    executable: codex
+    auth: existing_cli_subscription
+  claude_code:
+    executable: claude
+    auth: existing_cli_subscription
+
+runtime:
+  timeout_seconds: 120
+  max_concurrency_per_provider: 1
+  max_queue_per_provider: 8
+  max_input_bytes: 1000000
+  max_output_bytes: 4000000
